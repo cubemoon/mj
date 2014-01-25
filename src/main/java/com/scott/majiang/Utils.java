@@ -1,5 +1,7 @@
 package com.scott.majiang;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Utils {
@@ -15,6 +17,35 @@ public class Utils {
 		
 //		2. left are All three of a kind or straight
 		return false;
+	}
+	public static HashMap<String,List<MaJiangCard>> splitBySuit(List<MaJiangCard> cardList){
+		HashMap<String,List<MaJiangCard>> cardListInMap = new HashMap<String, List<MaJiangCard>>();
+		//T,S,W,F,H
+		List<MaJiangCard> tList = new ArrayList<MaJiangCard>();
+		List<MaJiangCard> sList = new ArrayList<MaJiangCard>();
+		List<MaJiangCard> wList = new ArrayList<MaJiangCard>();
+		List<MaJiangCard> fList = new ArrayList<MaJiangCard>();
+		List<MaJiangCard> hList = new ArrayList<MaJiangCard>();
+		for(MaJiangCard card: cardList){
+			if(card.getSuit().equals(CardSuit.TONGZI)){
+				tList.add(card);
+			}
+			if(card.getSuit().equals(CardSuit.SUOZI)){
+				sList.add(card);
+			}
+			if(card.getSuit().equals(CardSuit.WANZI)){
+				wList.add(card);
+			}
+			if(card.getSuit().equals(CardSuit.FENGXIANG)){
+				fList.add(card);
+			}
+			if(card.getSuit().equals(CardSuit.HUA)){
+				hList.add(card);
+			}
+			//sort card and find 
+		}
+		
+		return cardListInMap;
 	}
 	public static boolean isTwoOfAKind(){
 		return false;
