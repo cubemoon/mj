@@ -1,0 +1,77 @@
+package tutorial;
+
+option java_package = "com.scott.majiang.proto";
+option java_outer_classname = "GamingProtocol";
+option optimize_for = SPEED;
+
+enum MessageType{
+    HEART_BEAT_C2S = 10000;
+    JOIN_TABLE_C2S = 10001;
+    JOIN_TABLE_S2C = 10002; 
+}
+
+message Majiang{
+    optional MessageType type = 1;
+    optional int64 playerId = 2;
+    optional MajiangMathData mathData = 3; 
+    optional JoinTableC2S joinTableC2S = 4;
+    optional JoinTableS2C joinTableS2C = 5;
+
+}
+
+message MajiangMathData{
+    optional int32 gameId = 1; 
+    optional int64 totalWin = 2;
+    optional GameState state = 3;
+}
+enum GameState{
+    state_new = 0;
+    state_gaming=1;
+    state_end = 2;
+}
+message JoinTableS2C{
+   	optional int32 retCode=1;
+   	optional TableInfo tableInfo=2;
+}
+
+message JoinTableC2S{
+	optional TablePlayerInfo tablePlayerInfo=1; 
+}
+
+message TableInfo
+{
+    required int32 id = 1;
+    optional string name = 2;
+    optional int32 speedType=3;
+    optional int64 blinds=4;
+    optional int32 userCount=6;
+    optional int32 maxUserCount=7;
+    repeated TablePlayerInfo playerList=8; 
+    optional int32 speed = 9;
+    optional int32 gameInterval = 10;
+    optional int64 minBuyIn=11;
+    optional int64 maxBuyIn=12;
+}
+
+message TablePlayerInfo{
+   	required int64 playerId=1;
+   	optional string name=2;
+   	optional int64 amounts=3;
+   	optional int32 tableId=4;
+   	optional int32 location=5;
+   	optional int64 moneyOnTable =6;
+   	optional int32 pictureId = 7;
+}
+
+message Player{
+    required int64 PlayerId=1;
+    optional Sex sex = 2 [default = unknow];
+    optional uint64 money = 3 [default = 0];
+    enum Sex {
+    unknow = 0;
+    male = 1;
+    female = 2;
+    hermaphrodite = 3;
+  }
+}
+

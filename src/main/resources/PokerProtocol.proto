@@ -1,0 +1,476 @@
+
+package com.aspectgaming.table.poker.net.vo;
+
+option java_package = "com.aspectgaming.pokerserver.net.message";
+option java_outer_classname = "PokerProtocol";
+option optimize_for = SPEED;
+
+enum ProtocolTypes {
+	HEART_BEAT_C2S=19909;
+    CHAT_MSG_C2S = 17909;
+    CHAT_MSG_S2C = 17910;
+    GET_ROOM_INFO_C2S = 17911;
+    GET_ROOM_INFO_S2C = 17912;
+    GET_TABLE_INFO_C2S = 17913;
+    GET_TABLE_INFO_S2C = 17914;
+    JOIN_TABLE_C2S = 17915;
+    JOIN_TABLE_S2C = 17916;
+    SIT_HERE_C2S=17917;
+    SIT_HERE_S2C=17918;
+    STAND_UP_C2S=17919;
+    STAND_UP_S2C=17920;
+    LEAVE_C2S=17921;
+    LEAVE_S2C=17922;
+    LOGIN_MSG_C2S=17923;
+    LOGIN_MSG_S2C=17924;
+    LOGOUT_MSG_C2S=17925;
+    LOGOUT_MSG_S2C=17926;
+    CALL_C2S = 17927;
+    CALL_S2C = 17928;
+    CHECK_C2S = 17929;
+    CHECK_S2C = 17930;
+    RAISE_C2S = 17931;
+    RAISE_S2C = 17932;
+    FOLD_C2S = 17933;
+    FOLD_S2C = 17934;
+    ALLIN_C2S = 17935;
+    ALLIN_S2C = 17936;
+    TABLE_TASK_C2S = 17937;
+    TABLE_TASK_S2C = 17938;
+    PICKPLAYERONTABLE_C2S = 17939;
+    PICKPLAYERONTABLE_S2C = 17940;
+    EMULATEPLAY_C2S = 17941;
+    EMULATEPLAY_S2C = 17942;
+    ACHIEVEMENTLIST_C2S = 17943;
+    ACHIEVEMENTLIST_S2C = 17944;
+    GET_ACHIEVEMENT_S2C = 17945;
+    PLAY_NOW_C2S=17946;
+    PLAY_NOW_S2C=17947;
+    BET_C2S = 17948;
+    BET_S2C = 17949;
+    SHOWCARDS_C2S = 17950;
+    NEXTROUND_C2S = 17951;
+    JOINTABLEFRIENDVIEW_S2C = 17952;
+    GET_ROOM_INFO_REFRESH_C2S = 17953;
+    GET_ROOM_INFO_REFRESH_S2C = 17954;
+    GET_PLAYERPROFILE_C2S = 17955;
+    GET_PLAYERPROFILE_S2C = 17956;
+}
+message PickPlayerOnTable_C2S{
+    optional int64 senderId = 2;
+    repeated int64 playerIds = 1;
+}
+message PickPlayerOnTable_S2C{
+    repeated int64 playerId = 1;
+    repeated int32 tableId = 2;
+    optional int32 retCode = 3;
+    repeated int64 amount = 4;
+}
+message EmulatePlay_C2S{
+    optional int64 playerId = 6;
+    optional int32 tableId = 1;
+    repeated int64 playerIds = 4;
+    repeated int64 moneyOnTable = 5;
+    repeated string deck = 3;
+}
+message EmulatePlay_S2C{
+    optional int32 retCode = 1;
+}
+
+message TableTask_C2S{
+    optional int32 tableId = 1;
+}
+
+message TableTask_S2C{
+    optional Poker poker = 1;
+}
+ 
+message Call_C2S{
+    optional int32 tableId = 1;
+    optional int64 playerId = 2;
+}
+
+message Call_S2C{
+    optional PlayActionResponseS2C returnMsg = 1;
+    optional int32 retCode = 2;
+}
+
+message Check_C2S{
+    optional int32 tableId = 1;
+    optional int64 playerId = 2;
+}
+
+message Check_S2C{
+    optional PlayActionResponseS2C returnMsg = 1;
+    optional int32 retCode = 2;
+}
+
+message Raise_C2S{
+    optional int32 tableId = 1;
+    optional int64 playerId = 2;
+    optional int64 money = 3;
+}
+
+message Raise_S2C{
+    optional PlayActionResponseS2C returnMsg = 1;
+    optional int32 retCode = 2;
+}
+
+message Bet_C2S{
+    optional int32 tableId = 1;
+    optional int64 playerId = 2;
+    optional int64 money = 3;
+}
+
+message Bet_S2C{
+    optional PlayActionResponseS2C returnMsg = 1;
+    optional int32 retCode = 2;
+}
+
+message Fold_C2S{
+    optional int32 tableId = 1;
+    optional int64 playerId = 2;
+}
+
+message Fold_S2C{
+    optional PlayActionResponseS2C returnMsg = 1;
+    optional int64 playerId = 2;
+    optional bool leave = 3;
+	optional int32 retCode = 4;
+}
+
+message Allin_C2S{
+    optional int32 tableId = 1;
+    optional int64 playerId = 2;
+}
+
+message Allin_S2C{
+    optional PlayActionResponseS2C returnMsg = 1;
+    optional int32 retCode = 2;
+}
+
+message PlayActionResponseS2C{
+    optional int32 pokerHandNum = 1;
+    optional PlayerHand activeHand = 2;
+}
+
+message LoginMsgC2S{
+   	required int64 playerId=1;
+}
+
+message LoginMsgS2C{
+   	required int32 retCode=1;
+   	optional int64 balance=2;
+   	optional string name = 3;
+   	optional int32 level=4;
+   	optional int32 finishAchievementsCount = 5;
+	optional int32 unfinishAchievementsCount = 6;
+}
+
+message LogoutMsgC2S{
+   	required int64 playerId=1;
+}
+
+message LogoutMsgS2C{
+   	required int64 retCode=1;
+}
+
+message ChatMsgC2S{
+   	optional int64 receiverId = 1;	
+   	required int32 type = 2;
+   	optional string content = 3;
+}
+
+message ChatMsgS2C{
+   	optional int64 senderId=1;
+   	optional string senderName=2;
+   	required int32 type = 3;
+   	optional string content = 4;
+}
+
+message TablePlayerInfo{
+   	required int64 playerId=1;
+   	optional string name=2;
+   	optional int64 amounts=3;
+   	optional int32 tableId=4;
+   	optional int32 location=5;
+   	optional int64 moneyOnTable =6;
+   	optional int32 pictureId = 7;
+}
+
+message TableInfo
+{
+    required int32 id = 1;
+    optional string name = 2;
+    optional int32 speedType=3;
+    optional int64 minBlinds=4;
+    optional int64 maxBlinds=5;
+    optional int32 userCount=6;
+    optional int32 maxUserCount=7;
+    repeated TablePlayerInfo playerList=8; 
+    optional int32 speed = 9;
+    optional int32 gameInterval = 10;
+    optional int64 minBuyIn=11;
+    optional int64 maxBuyIn=12;
+}
+
+message TableInfoRefresh
+{
+    required int32 id = 1;
+    optional int32 userCount = 2;
+}
+
+message GetRoomInfoC2S{
+   	required int32 roomId=1;
+   	optional string roomName=2;	
+}
+
+message GetRoomInfoS2C{
+   	required int32 roomId=1;
+   	optional string roomName=2;
+   	repeated TableInfo tableList=3;
+}
+
+message GetRoomInfoRefreshC2S{
+   	required int32 roomId=1;
+   	optional string roomName=2;	
+}
+
+message GetRoomInfoRefreshS2C{
+   	required int32 roomId=1;
+   	optional string roomName=2;
+   	repeated TableInfoRefresh tableList=3;
+}
+
+message GetTableInfoC2S{
+  	required int32 tableId=1;
+   	optional string tableName=2;
+}
+
+message GetTableInfoS2C{
+   	optional TableInfo tableInfo=1;
+}
+
+message JoinTableC2S{
+   	required int32 tableId=1;
+}
+
+message JoinTableS2C{
+   	required int32 retCode=1;
+   	optional TableInfo tableInfo=2;
+}
+
+message JoinTableFriendViewS2C{
+	optional TablePlayerInfo friend=1; 
+}
+
+message SitHereC2S{
+   	required int32 tableId=1;
+   	required int32 location=2;
+   	optional int64 moneyOnTable = 3;
+   	optional bool reBuy = 4;
+}
+
+message SitHereS2C{
+   	required int32 retCode=1;
+   	required int32 tableId=2;
+   	optional int32 location=3;
+   	optional TablePlayerInfo siter=4;
+}
+
+message PlayNowC2S{
+	optional int32 tableId = 1;
+	optional int64 friendId = 2;
+}
+
+message ShowCard_C2S{
+    required int32 tableId = 1;
+    required int64 playerId = 2;
+   	optional bool show = 3;
+}
+
+message NextRound_C2S{
+    required int32 tableId = 1;
+}
+
+message StandUpC2S{
+  	required int32 tableId=1;
+}
+
+message StandUpS2C{
+   	required int32 retCode=1;
+   	required int32 tableId=2;
+   	optional int32 location=3;
+   	optional TablePlayerInfo siter=4;
+   	optional bool autoStandUp=5;
+}
+
+message LeaveC2S{
+   	required int32 tableId = 1;
+}
+
+message LeaveS2C{
+   	required int32 retCode=1;
+   	required int32 tableId=2;
+   	optional int32 location=3;
+   	optional TablePlayerInfo leaver=4;
+   	optional int32 finishAchievementsCount = 5;
+	optional int32 unfinishAchievementsCount = 6;
+}
+
+message GetAchievementS2C{
+   	required int64 playerId = 1;
+   	repeated Achievement achievements = 2;
+}
+
+message AchievementListC2S{
+   	required int64 playerId = 1;
+}
+
+message AchievementListS2C{
+	required int32 retCode = 1;
+   	required int64 playerId = 2;
+   	repeated Achievement finishAchievements = 3;
+   	repeated Achievement unfinishAchievements = 4;
+}
+
+message PlayerProfileC2S{
+   	required int64 playerId=1;
+}
+
+message PlayerProfileS2C{
+   	required int32 retCode = 1;
+   	required int64 playerId = 2;
+   	optional string userName = 3;
+   	optional int64 balance = 4;
+   	optional string bestHand = 5;
+   	optional Rank rank = 6;
+   	optional int64 winCount = 7;
+   	optional int64 playCount = 8;
+   	optional Sex sex = 9 [default = unknow];
+   	optional int64 biggestWin = 10;
+   	optional int32 level = 11;
+   	optional int32 finishAchievementsCount = 12;
+	optional int32 unfinishAchievementsCount = 13;
+   	enum Sex {
+    	unknow = 0;
+    	male = 1;
+    	female = 2;
+    	hermaphrodite = 3;
+  	}
+}
+
+message Achievement{
+	required int32 achievementId = 1;
+	required int64 rewardAmount = 2;
+}
+
+message PlayerHand{
+   	optional int64 playerId = 21;
+   	optional bool dealer = 25;
+   	optional bool smallBlind = 1;
+   	optional bool bigBlind = 2;
+   	optional PlayerState playerState = 3;
+   	optional HandState handState = 4;
+   	optional bool active = 5;
+   	optional bool complete = 6;
+   	optional int32 position = 7;
+   	optional bool call = 8;
+   	optional bool check = 9;
+   	optional bool raise = 10;
+   	optional bool fold = 11;
+   	optional bool allin = 12;
+   	optional bool bet = 26;
+   	optional PlayEvent playEvent = 13;
+   	optional string handCards = 14;
+   	optional string bestHand = 15;
+   	optional Rank rank = 16;
+   	optional int64 currBet = 17;
+   	optional int64 roundBet = 18;
+   	optional int64 totalBet = 19;
+   	optional int64 moneyOnTable = 20;
+   	optional int64 roundEndCurrBet = 22;
+   	optional int64 roundEndRoundBet = 23;
+   	optional int64 winAmount= 24;
+   	optional int32 currentTimer = 27;
+   	optional int32 pictureId = 28;
+}
+enum PlayerState{
+   	sitting = 0;
+   	watching = 1;
+}
+enum HandState{
+   	gaming = 0;
+   	win = 1;
+   	folded = 2;
+   	allined = 3;
+}
+enum PlayEvent{
+    check = 0;
+    call = 1;
+    raise = 2;
+    fold = 3;
+    allin = 4;
+    bet = 5;
+}
+enum Rank{
+    straightFlush = 8;
+    fourOfAKind = 7;
+    fullHouse = 6;
+    flush = 5;
+    straight = 4;
+    threeOfAKind = 3;
+    twoPair = 2;
+    onePair = 1;
+    highCard = 0;
+}
+
+message Poker{
+    optional int64 gameId = 2;
+    optional int32 tableId = 8;
+    optional Board board = 3;
+    optional RoundState round = 4;
+    optional PokerMathState state = 5;
+    repeated PlayerHand playerHand= 6;
+    repeated string deck = 7;
+    optional int64 waittingPlayerId = 9;
+    
+    message Board{
+        optional int64 minBet = 1;
+        optional int64 maxBet = 2;
+        optional int64 blindBet = 3;
+        optional int64 currentBet = 4;
+        repeated int64 betOnTable = 5;
+        repeated string tableCards = 6;
+    	repeated BetPot pots = 7;
+    	optional int64 currentRaise = 8;
+    }
+        
+    enum RoundState{
+        pre_flop = 0;
+        flop = 1;
+        turn = 2;
+        river = 3;
+        over = 4;
+    }
+    enum PokerMathState{
+        NEWGAME = 0;
+        GAMING = 1;
+        COMPLETE = 2;
+        WAITTINGSHOW = 3;
+        WAITTINGROUND = 4;
+    }
+}
+
+message BetPot{
+ 	repeated int64 participator = 1;
+    repeated Winner winner = 2;
+    optional bool mainpot = 3;
+    optional int64 amount = 4;
+    optional int64 brokerage = 5;
+    optional int32 index = 6;
+    message Winner{
+        optional int64 playerId = 1;
+        optional int64 winAmount = 2;
+    }
+}
