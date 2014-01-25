@@ -43,10 +43,21 @@ public class Utils {
 				hList.add(card);
 			}
 			//sort card and find 
+			
 		}
 		
 		return cardListInMap;
 	}
+	
+	private void sortByCardNum(List<MaJiangCard> mjList){
+		
+	}
+	
+	private void findCombination(List<MaJiangCard> mjList){
+		
+	}
+		
+	
 	public static boolean isTwoOfAKind(){
 		return false;
 	}
@@ -60,9 +71,7 @@ public class Utils {
 		else
 			return false;
 	}
-	private void sort(List<MaJiangCard> mjList){
-		
-	}
+
 	public static String[] splitToStrArray(String src)
 	{
 		return src.split("\\s+");
