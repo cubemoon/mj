@@ -8,9 +8,16 @@ public class MaJiangCard {
 	private CardSuit suit;
 	
 	MaJiangCard(String shortName) {
-		this.setNum(shortName.charAt(0));
+		this.setNum(Character.getNumericValue(shortName.charAt(0)));
 		this.setName(shortName);
-		this.setSuit(Constant.cardSuit.get(shortName.charAt(1)));
+		this.setSuit(Constant.cardSuit.get(Character.toString(shortName.charAt(1))));
+	}
+	
+	public MaJiangCard(String shortName, int id) {
+		this.setId(id);
+		this.setNum(Character.getNumericValue(shortName.charAt(0)));
+		this.setName(shortName);
+		this.setSuit(Constant.cardSuit.get(Character.toString(shortName.charAt(1))));
 	}
 	
 	public String getName() {
@@ -34,7 +41,7 @@ public class MaJiangCard {
 	
 	public String toString(){
 		StringBuffer sb = new StringBuffer();
-		return sb.append(num).append(suit.name().charAt(0)).toString();
+		return sb.append(num).append(suit.name()).toString();
 	}
 
 	public int getNum() {

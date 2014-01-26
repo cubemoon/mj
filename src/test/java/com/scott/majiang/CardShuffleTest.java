@@ -32,7 +32,11 @@ public class CardShuffleTest {
 		cardsQueue = cardShuffle.shuffle(cardsQueue);
 		for(String card : cardsQueue){
 //			System.out.print(card+" ");
-			logger.info(card+" ");
+//			logger.info(card+" ");
 		}
+		Queue<MaJiangCard> mjcardQueue = cardShuffle.initMaJiangCards();
+		for(MaJiangCard card:mjcardQueue){
+			logger.info(card.toString());
+		}	
 	}
 }

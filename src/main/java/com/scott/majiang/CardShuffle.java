@@ -60,6 +60,17 @@ public class CardShuffle
 		}
 		return cards;
 	}
+	
+	public Queue<MaJiangCard> initMaJiangCards(){
+		Queue<MaJiangCard> mjCardQueue = new LinkedList<MaJiangCard>();
+		Queue<String> cardShortNameQueue = initDeck();
+		cardShortNameQueue = shuffle(cardShortNameQueue);
+		for(int count=1; count<cardShortNameQueue.size(); count++){
+			MaJiangCard tmpCard = new MaJiangCard(cardShortNameQueue.poll(), count);
+			mjCardQueue.add(tmpCard);
+		}
+		return mjCardQueue;
+	}
 
 	private static void swap(Object[] arr, int i, int j)
 	{

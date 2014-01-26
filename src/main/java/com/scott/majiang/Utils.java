@@ -1,10 +1,15 @@
 package com.scott.majiang;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 public class Utils {
+	
+	final private static MjComparator mjComparator = new MjComparator();
+
 	
 	public static boolean isOneCardToWinHand(){
 //		1. Has one two of a kind
@@ -42,35 +47,92 @@ public class Utils {
 			if(card.getSuit().equals(CardSuit.HUA)){
 				hList.add(card);
 			}
-			//sort card and find 
+			//sort card in list
+			sortByCardNum(tList);
+			sortByCardNum(sList);
+			sortByCardNum(wList);
+			sortByCardNum(fList);
+			sortByCardNum(hList);
 			
+			//find combination
+			findCombination(tList);
+			findCombination(sList);
+			findCombination(wList);
+			findCombination(fList);
+			findCombination(hList);
 		}
 		
 		return cardListInMap;
 	}
 	
-	private void sortByCardNum(List<MaJiangCard> mjList){
-		
+	public static void sortByCardNum(List<MaJiangCard> mjList){
+		Collections.sort(mjList, mjComparator);
 	}
 	
-	private void findCombination(List<MaJiangCard> mjList){
+	public static void findCombination(List<MaJiangCard> mjList){
+		/*		11 123 123
+				1111 22 33  ->put into a set get 1 2 3 left 111 2 3->> found 123 left 11
 		
-	}
+				11 123 123 35		
+				1111 22 333 5 
+				
+				33 4444 5 678 ->put into a set->> found 345 678 left-cards 3 444 ->find cards with same cardNum->> found 444 left-card 3 -->correct!!
+				3 345 444 678 ->find 33 444 left 456 78
+				33 45 444 678
+				33 456 444 678
+				333 45 444 678
+				*/
+		//find x of isStraight has to be done first ?
 		
-	
-	public static boolean isTwoOfAKind(){
-		return false;
-	}
-	public static boolean isThreeOfAKind(){
-		return false;
-	}
-	public static boolean isStraight(int[] inputs){
-		if(inputs.length == 3){
-			return true;
+		
+		//find x of same cardNum 
+		List<String> kindNumAndCardNumList = new ArrayList<String>();
+		while (getkindNumAndCardNum(mjList) != null) {
+			kindNumAndCardNumList.add(getkindNumAndCardNum(mjList));
+			removeCardFromList(mjList, Character.getNumericValue(getkindNumAndCardNum(mjList).charAt(0)));
 		}
-		else
-			return false;
+			
+	}		
+	public static String findStraightCards(List<MaJiangCard> mjList){
+		HashSet<Integer> cardNumSet = new HashSet<Integer>();
+		return null;
 	}
+	public static void removeDuplicatedCardFromList(List<MaJiangCard> mjList){
+		HashSet<MaJiangCard> cardSet = new HashSet<MaJiangCard>();
+//		Collections.addAll(cardSet, mjList);
+	}
+	public static void removeCardFromList(List<MaJiangCard> mjList, int toRemove){
+		for(MaJiangCard card:mjList){
+			if(card.getNum()==toRemove){
+				mjList.remove(card);
+			}
+		}
+		
+	}
+	public static String getkindNumAndCardNum(List<MaJiangCard> mjList){
+		HashSet<Integer> cardNumSet = new HashSet<Integer>();
+		int kind = 0;
+		int cardNumSetSize = 0;
+		boolean kindSequenceEndReady = false;
+		int kindNum = 0;
+		for(MaJiangCard card:mjList){
+			cardNumSet.add(card.getNum());
+			if(cardNumSet.size() == cardNumSetSize){
+				kindSequenceEndReady = true;
+				kindNum++;
+				kind = card.getNum();
+			}
+			else if(kindSequenceEndReady == true){
+					break;
+				}
+		}
+		if(kindSequenceEndReady == false){
+			return null;
+		}
+		else{
+			return new StringBuffer().append(kindNum).append('_').append(kind).append('_').append(mjList.get(0).getSuit().name()).toString();
+		}
+		}		
 
 	public static String[] splitToStrArray(String src)
 	{
