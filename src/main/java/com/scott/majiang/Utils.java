@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 public class Utils {
@@ -69,7 +70,9 @@ public class Utils {
 		Collections.sort(mjList, mjComparator);
 	}
 	
-	public static void findCombination(List<MaJiangCard> mjList){
+	public static List<String> findCombination(List<MaJiangCard> mjList){
+		List<MaJiangCard> tmpCardList = new ArrayList<MaJiangCard>();
+		tmpCardList = mjList;
 		/*		11 123 123
 				1111 22 33  ->put into a set get 1 2 3 left 111 2 3->> found 123 left 11
 		
@@ -81,31 +84,74 @@ public class Utils {
 				33 45 444 678
 				33 456 444 678
 				333 45 444 678
+				
+				456 234 44  -  4444 23 56-- 234 56 wrong!
+				-
+				sort- 234 44 456
 				*/
 		//find x of isStraight has to be done first ?
+		List<String> straightCardList = findStraightCards(mjList);
 		
-		
+				
 		//find x of same cardNum 
 		List<String> kindNumAndCardNumList = new ArrayList<String>();
 		while (getkindNumAndCardNum(mjList) != null) {
 			kindNumAndCardNumList.add(getkindNumAndCardNum(mjList));
 			removeCardFromList(mjList, Character.getNumericValue(getkindNumAndCardNum(mjList).charAt(0)));
 		}
+		straightCardList.addAll(kindNumAndCardNumList);		
+		return straightCardList;
 			
-	}		
-	public static String findStraightCards(List<MaJiangCard> mjList){
-		HashSet<Integer> cardNumSet = new HashSet<Integer>();
-		return null;
+	}
+	
+	public static List<String> StraightCardSeqToSingleCardList(List<String> straightCardString){
+		List<String> out = new ArrayList<String>();
+		for(String seq: straightCardString){
+//			out.addAll(seq.split(" "));
+		}
+		
+		return out;
+	}
+	/**
+	 * 
+	 * @param mjList
+	 * @return
+	 */
+	public static List<String> findStraightCards(List<MaJiangCard> mjList){
+		List<String> straightCardList = new ArrayList<String>();
+		StringBuffer straightCards = new StringBuffer();
+		for(int count=1;count<mjList.size();count++){
+			if(mjList.get(count).getNum() == mjList.get(count-1).getNum()+1){
+				if(straightCards.length() != 0){
+					straightCards.append(" ").append(mjList.get(count).getName());
+				}
+				else{
+					straightCards.append(mjList.get(count-1).getName()).append(" ").append(mjList.get(count).getName());
+				}
+			}
+			else{
+				if(straightCards.length() != 0){
+					straightCardList.add(straightCards.toString());
+					straightCards.delete(0, straightCards.length());
+				}
+			}
+		}
+		if(straightCards.length() != 0){
+			straightCardList.add(straightCards.toString());
+			straightCards.delete(0, straightCards.length());
+		}
+		return straightCardList;
 	}
 	public static void removeDuplicatedCardFromList(List<MaJiangCard> mjList){
 		HashSet<MaJiangCard> cardSet = new HashSet<MaJiangCard>();
 //		Collections.addAll(cardSet, mjList);
 	}
 	public static void removeCardFromList(List<MaJiangCard> mjList, int toRemove){
-		for(MaJiangCard card:mjList){
-			if(card.getNum()==toRemove){
-				mjList.remove(card);
-			}
+		Iterator<MaJiangCard> iter = mjList.iterator();
+		while (iter.hasNext()) {
+		    if (iter.next().getNum() == toRemove) {
+		        iter.remove();
+		    }
 		}
 		
 	}
@@ -114,8 +160,9 @@ public class Utils {
 		int kind = 0;
 		int cardNumSetSize = 0;
 		boolean kindSequenceEndReady = false;
-		int kindNum = 0;
+		int kindNum = 1;
 		for(MaJiangCard card:mjList){
+			cardNumSetSize = cardNumSet.size();
 			cardNumSet.add(card.getNum());
 			if(cardNumSet.size() == cardNumSetSize){
 				kindSequenceEndReady = true;
@@ -132,7 +179,7 @@ public class Utils {
 		else{
 			return new StringBuffer().append(kindNum).append('_').append(kind).append('_').append(mjList.get(0).getSuit().name()).toString();
 		}
-		}		
+	}		
 
 	public static String[] splitToStrArray(String src)
 	{

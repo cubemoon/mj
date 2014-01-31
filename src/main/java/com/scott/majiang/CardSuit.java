@@ -11,3 +11,4 @@ HUA: CHUN, XIA, QIU, DONG, MEI, LAN, ZHU, JU (from 1 to 8) ~total; 8
 
 sum: 108 + 28 + 8=144
 */
+
